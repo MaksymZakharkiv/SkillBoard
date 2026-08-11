@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBoard</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div>
+            <h1>SkillBoard</h1>
+            <p>Internship preparation tracker</p>
+        </div>
+
+        <button id="addTaskBtn" class="primary-btn">
+            + Add Task
+        </button>
+    </header>
+
+    <main class="container">
+
+        <section class="stats">
+            <div class="stat-card">
+                <span class="stat-number">4</span>
+                <span class="stat-label">Total tasks</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-number">2</span>
+                <span class="stat-label">In progress</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-number">1</span>
+                <span class="stat-label">Completed</span>
+            </div>
+        </section>
+
+        <section class="toolbar">
+            <input type="text" id="searchInput" placeholder="Search tasks...">
+
+            <select id="categoryFilter">
+                <option value="all">All categories</option>
+                <option value="javascript">JavaScript</option>
+                <option value="algorithms">Algorithms</option>
+                <option value="english">English</option>
+                <option value="project">Project</option>
+            </select>
+        </section>
+
+        <section class="board">
+
+            <div class="column">
+                <h2>To Learn</h2>
+
+                <div class="task-list" id="todoList">
+
+                    <article class="task-card">
+                        <div class="task-top">
+                            <span class="tag javascript">JavaScript</span>
+                            <span class="priority high">High</span>
+                        </div>
+
+                        <h3>Repeat array methods</h3>
+
+                        <p>
+                            Practice map, filter, reduce and find with small examples.
+                        </p>
+                    </article>
+
+                    <article class="task-card">
+                        <div class="task-top">
+                            <span class="tag algorithms">Algorithms</span>
+                            <span class="priority medium">Medium</span>
+                        </div>
+
+                        <h3>Solve simple algorithm tasks</h3>
+
+                        <p>
+                            Focus on loops, conditions and working with arrays.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+
+            <div class="column">
+                <h2>In Progress</h2>
+
+                <div class="task-list" id="progressList">
+
+                    <article class="task-card">
+                        <div class="task-top">
+                            <span class="tag project">Project</span>
+                            <span class="priority high">High</span>
+                        </div>
+
+                        <h3>Build SkillBoard layout</h3>
+
+                        <p>
+                            Create a clean dashboard for internship preparation.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+
+            <div class="column">
+                <h2>Done</h2>
+
+                <div class="task-list" id="doneList">
+
+                    <article class="task-card done">
+                        <div class="task-top">
+                            <span class="tag english">English</span>
+                            <span class="priority low">Low</span>
+                        </div>
+
+                        <h3>Prepare short self-introduction</h3>
+
+                        <p>
+                            Write a simple B1-level introduction for an interview.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
