@@ -13,7 +13,7 @@ const todoList = document.getElementById("todoList");
 const progressList = document.getElementById("progressList");
 const doneList = document.getElementById("doneList");
 
-let tasks = [
+const defaultTasks = [
   {
     id: 1,
     title: "Repeat array methods",
@@ -48,6 +48,8 @@ let tasks = [
   },
 ];
 
+let tasks = loadTasks();
+
 function openModal() {
   taskModal.classList.remove("hidden");
 }
@@ -59,6 +61,20 @@ function closeModal() {
 
 function capitalizeText(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function saveTasks() {
+  localStorage.setItem("skillboardTasks", JSON.stringify(tasks));
+}
+
+function loadTasks() {
+  const savedTasks = localStorage.getItem("skillboardTasks");
+
+  if (savedTasks === null) {
+    return defaultTasks;
+  }
+
+  return JSON.parse(savedTasks);
 }
 
 function getTaskListByStatus(status) {
@@ -165,6 +181,7 @@ taskForm.addEventListener("submit", function (event) {
 
   tasks.push(newTask);
 
+  saveTasks();
   renderTasks();
   closeModal();
 });
