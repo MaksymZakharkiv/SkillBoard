@@ -1,4 +1,6 @@
 const addTaskBtn = document.getElementById("addTaskBtn");
+const resetBoardBtn = document.getElementById("resetBoardBtn");
+
 const taskModal = document.getElementById("taskModal");
 const closeModalBtn = document.getElementById("closeModalBtn");
 const cancelBtn = document.getElementById("cancelBtn");
@@ -63,6 +65,19 @@ const defaultTasks = [
 let tasks = loadTasks();
 let editingTaskId = null;
 
+function getDefaultTasks() {
+  return defaultTasks.map(function (task) {
+    return {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      category: task.category,
+      priority: task.priority,
+      status: task.status,
+    };
+  });
+}
+
 function openModal() {
   taskModal.classList.remove("hidden");
 }
@@ -120,7 +135,7 @@ function loadTasks() {
   const savedTasks = localStorage.getItem("skillboardTasks");
 
   if (savedTasks === null) {
-    return defaultTasks;
+    return getDefaultTasks();
   }
 
   return JSON.parse(savedTasks);
@@ -210,6 +225,20 @@ function clearFilters() {
   categoryFilter.value = "all";
   priorityFilter.value = "all";
 
+  renderTasks();
+}
+
+function resetBoard() {
+  const confirmReset = confirm("Reset board to default tasks?");
+
+  if (confirmReset === false) {
+    return;
+  }
+
+  tasks = getDefaultTasks();
+
+  saveTasks();
+  clearFilters();
   renderTasks();
 }
 
@@ -374,6 +403,10 @@ function renderTasks() {
 }
 
 addTaskBtn.addEventListener("click", openAddModal);
+
+resetBoardBtn.addEventListener("click", function () {
+  resetBoard();
+});
 
 closeModalBtn.addEventListener("click", closeModal);
 
