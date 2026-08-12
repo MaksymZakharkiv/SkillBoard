@@ -10,6 +10,7 @@ const taskCategoryInput = document.getElementById("taskCategory");
 const taskPriorityInput = document.getElementById("taskPriority");
 
 const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
 
 const todoList = document.getElementById("todoList");
 const progressList = document.getElementById("progressList");
@@ -95,14 +96,23 @@ function getTaskListByStatus(status) {
 
 function getFilteredTasks() {
   const searchText = searchInput.value.toLowerCase().trim();
+  const selectedCategory = categoryFilter.value;
 
-  if (searchText === "") {
-    return tasks;
+  let filteredTasks = tasks;
+
+  if (searchText !== "") {
+    filteredTasks = filteredTasks.filter(function (task) {
+      return task.title.toLowerCase().includes(searchText);
+    });
   }
 
-  return tasks.filter(function (task) {
-    return task.title.toLowerCase().includes(searchText);
-  });
+  if (selectedCategory !== "all") {
+    filteredTasks = filteredTasks.filter(function (task) {
+      return task.category === selectedCategory;
+    });
+  }
+
+  return filteredTasks;
 }
 
 function deleteTask(taskId) {
@@ -248,6 +258,10 @@ document.addEventListener("keydown", function (event) {
 });
 
 searchInput.addEventListener("input", function () {
+  renderTasks();
+});
+
+categoryFilter.addEventListener("change", function () {
   renderTasks();
 });
 
