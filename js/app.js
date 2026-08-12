@@ -234,6 +234,7 @@ function createStatusSelect(task) {
 function createTaskCard(task) {
   const taskCard = document.createElement("article");
   taskCard.classList.add("task-card");
+  taskCard.classList.add("priority-" + task.priority);
 
   if (task.status === "done") {
     taskCard.classList.add("done");
