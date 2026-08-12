@@ -106,6 +106,48 @@ function deleteTask(taskId) {
   renderTasks();
 }
 
+function changeTaskStatus(taskId, newStatus) {
+  tasks = tasks.map(function (task) {
+    if (task.id === taskId) {
+      task.status = newStatus;
+    }
+
+    return task;
+  });
+
+  saveTasks();
+  renderTasks();
+}
+
+function createStatusSelect(task) {
+  const statusSelect = document.createElement("select");
+  statusSelect.classList.add("status-select");
+
+  const todoOption = document.createElement("option");
+  todoOption.value = "todo";
+  todoOption.textContent = "To Learn";
+
+  const progressOption = document.createElement("option");
+  progressOption.value = "progress";
+  progressOption.textContent = "In Progress";
+
+  const doneOption = document.createElement("option");
+  doneOption.value = "done";
+  doneOption.textContent = "Done";
+
+  statusSelect.appendChild(todoOption);
+  statusSelect.appendChild(progressOption);
+  statusSelect.appendChild(doneOption);
+
+  statusSelect.value = task.status;
+
+  statusSelect.addEventListener("change", function () {
+    changeTaskStatus(task.id, statusSelect.value);
+  });
+
+  return statusSelect;
+}
+
 function createTaskCard(task) {
   const taskCard = document.createElement("article");
   taskCard.classList.add("task-card");
@@ -134,6 +176,8 @@ function createTaskCard(task) {
   const taskActions = document.createElement("div");
   taskActions.classList.add("task-actions");
 
+  const statusSelect = createStatusSelect(task);
+
   const deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-btn");
   deleteButton.textContent = "Delete";
@@ -145,6 +189,7 @@ function createTaskCard(task) {
   taskTop.appendChild(categoryTag);
   taskTop.appendChild(priorityTag);
 
+  taskActions.appendChild(statusSelect);
   taskActions.appendChild(deleteButton);
 
   taskCard.appendChild(taskTop);
