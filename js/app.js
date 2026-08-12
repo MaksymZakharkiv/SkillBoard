@@ -12,6 +12,7 @@ const taskPriorityInput = document.getElementById("taskPriority");
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
 const priorityFilter = document.getElementById("priorityFilter");
+const clearFiltersBtn = document.getElementById("clearFiltersBtn");
 
 const todoList = document.getElementById("todoList");
 const progressList = document.getElementById("progressList");
@@ -162,6 +163,14 @@ function showEmptyMessages() {
   if (doneList.children.length === 0) {
     doneList.appendChild(createEmptyMessage("No completed tasks yet."));
   }
+}
+
+function clearFilters() {
+  searchInput.value = "";
+  categoryFilter.value = "all";
+  priorityFilter.value = "all";
+
+  renderTasks();
 }
 
 function deleteTask(taskId) {
@@ -320,6 +329,10 @@ categoryFilter.addEventListener("change", function () {
 
 priorityFilter.addEventListener("change", function () {
   renderTasks();
+});
+
+clearFiltersBtn.addEventListener("click", function () {
+  clearFilters();
 });
 
 taskForm.addEventListener("submit", function (event) {
