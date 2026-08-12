@@ -91,6 +91,21 @@ function getTaskListByStatus(status) {
   }
 }
 
+function deleteTask(taskId) {
+  const confirmDelete = confirm("Delete this task?");
+
+  if (confirmDelete === false) {
+    return;
+  }
+
+  tasks = tasks.filter(function (task) {
+    return task.id !== taskId;
+  });
+
+  saveTasks();
+  renderTasks();
+}
+
 function createTaskCard(task) {
   const taskCard = document.createElement("article");
   taskCard.classList.add("task-card");
@@ -116,12 +131,26 @@ function createTaskCard(task) {
   const taskDescription = document.createElement("p");
   taskDescription.textContent = task.description;
 
+  const taskActions = document.createElement("div");
+  taskActions.classList.add("task-actions");
+
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("delete-btn");
+  deleteButton.textContent = "Delete";
+
+  deleteButton.addEventListener("click", function () {
+    deleteTask(task.id);
+  });
+
   taskTop.appendChild(categoryTag);
   taskTop.appendChild(priorityTag);
+
+  taskActions.appendChild(deleteButton);
 
   taskCard.appendChild(taskTop);
   taskCard.appendChild(taskTitle);
   taskCard.appendChild(taskDescription);
+  taskCard.appendChild(taskActions);
 
   return taskCard;
 }
