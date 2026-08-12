@@ -133,6 +133,29 @@ function updateStatistics() {
   doneTasks.textContent = doneCount;
 }
 
+function createEmptyMessage(text) {
+  const emptyMessage = document.createElement("div");
+
+  emptyMessage.classList.add("empty-message");
+  emptyMessage.textContent = text;
+
+  return emptyMessage;
+}
+
+function showEmptyMessages() {
+  if (todoList.children.length === 0) {
+    todoList.appendChild(createEmptyMessage("No tasks to learn yet."));
+  }
+
+  if (progressList.children.length === 0) {
+    progressList.appendChild(createEmptyMessage("No tasks in progress."));
+  }
+
+  if (doneList.children.length === 0) {
+    doneList.appendChild(createEmptyMessage("No completed tasks yet."));
+  }
+}
+
 function deleteTask(taskId) {
   const confirmDelete = confirm("Delete this task?");
 
@@ -163,6 +186,7 @@ function changeTaskStatus(taskId, newStatus) {
 
 function createStatusSelect(task) {
   const statusSelect = document.createElement("select");
+
   statusSelect.classList.add("status-select");
 
   const todoOption = document.createElement("option");
@@ -256,6 +280,7 @@ function renderTasks() {
     taskList.appendChild(taskCard);
   });
 
+  showEmptyMessages();
   updateStatistics();
 }
 
