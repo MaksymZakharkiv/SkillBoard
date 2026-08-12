@@ -9,6 +9,8 @@ const taskDescriptionInput = document.getElementById("taskDescription");
 const taskCategoryInput = document.getElementById("taskCategory");
 const taskPriorityInput = document.getElementById("taskPriority");
 
+const searchInput = document.getElementById("searchInput");
+
 const todoList = document.getElementById("todoList");
 const progressList = document.getElementById("progressList");
 const doneList = document.getElementById("doneList");
@@ -89,6 +91,18 @@ function getTaskListByStatus(status) {
   if (status === "done") {
     return doneList;
   }
+}
+
+function getFilteredTasks() {
+  const searchText = searchInput.value.toLowerCase().trim();
+
+  if (searchText === "") {
+    return tasks;
+  }
+
+  return tasks.filter(function (task) {
+    return task.title.toLowerCase().includes(searchText);
+  });
 }
 
 function deleteTask(taskId) {
@@ -205,7 +219,9 @@ function renderTasks() {
   progressList.innerHTML = "";
   doneList.innerHTML = "";
 
-  tasks.forEach(function (task) {
+  const filteredTasks = getFilteredTasks();
+
+  filteredTasks.forEach(function (task) {
     const taskCard = createTaskCard(task);
     const taskList = getTaskListByStatus(task.status);
 
@@ -229,6 +245,10 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") {
     closeModal();
   }
+});
+
+searchInput.addEventListener("input", function () {
+  renderTasks();
 });
 
 taskForm.addEventListener("submit", function (event) {
