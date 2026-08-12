@@ -453,3 +453,111 @@ body {
     display: flex;
     gap: 8px;
 }
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .header {
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 26px;
+    }
+
+    .stats {
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    .toolbar {
+        gap: 10px;
+    }
+
+    .toolbar input,
+    .toolbar select,
+    .clear-btn {
+        width: 100%;
+    }
+
+    .column {
+        min-height: 300px;
+        padding: 16px;
+    }
+
+    .task-card {
+        padding: 14px;
+    }
+
+    .task-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-select,
+    .task-buttons,
+    .edit-btn,
+    .delete-btn {
+        width: 100%;
+    }
+
+    .task-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .header {
+        padding: 16px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .header p {
+        font-size: 13px;
+    }
+
+    .primary-btn {
+        width: 100%;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .modal-header h2 {
+        font-size: 20px;
+    }
+
+    .task-card h3 {
+        font-size: 15px;
+    }
+
+    .task-card p {
+        font-size: 13px;
+    }
+
+    .tag,
+    .priority {
+        font-size: 11px;
+    }
+}
