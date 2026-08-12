@@ -11,6 +11,7 @@ const taskPriorityInput = document.getElementById("taskPriority");
 
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
+const priorityFilter = document.getElementById("priorityFilter");
 
 const todoList = document.getElementById("todoList");
 const progressList = document.getElementById("progressList");
@@ -101,6 +102,7 @@ function getTaskListByStatus(status) {
 function getFilteredTasks() {
   const searchText = searchInput.value.toLowerCase().trim();
   const selectedCategory = categoryFilter.value;
+  const selectedPriority = priorityFilter.value;
 
   let filteredTasks = tasks;
 
@@ -113,6 +115,12 @@ function getFilteredTasks() {
   if (selectedCategory !== "all") {
     filteredTasks = filteredTasks.filter(function (task) {
       return task.category === selectedCategory;
+    });
+  }
+
+  if (selectedPriority !== "all") {
+    filteredTasks = filteredTasks.filter(function (task) {
+      return task.priority === selectedPriority;
     });
   }
 
@@ -307,6 +315,10 @@ searchInput.addEventListener("input", function () {
 });
 
 categoryFilter.addEventListener("change", function () {
+  renderTasks();
+});
+
+priorityFilter.addEventListener("change", function () {
   renderTasks();
 });
 
