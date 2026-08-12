@@ -16,6 +16,10 @@ const todoList = document.getElementById("todoList");
 const progressList = document.getElementById("progressList");
 const doneList = document.getElementById("doneList");
 
+const totalTasks = document.getElementById("totalTasks");
+const progressTasks = document.getElementById("progressTasks");
+const doneTasks = document.getElementById("doneTasks");
+
 const defaultTasks = [
   {
     id: 1,
@@ -113,6 +117,20 @@ function getFilteredTasks() {
   }
 
   return filteredTasks;
+}
+
+function updateStatistics() {
+  const inProgressCount = tasks.filter(function (task) {
+    return task.status === "progress";
+  }).length;
+
+  const doneCount = tasks.filter(function (task) {
+    return task.status === "done";
+  }).length;
+
+  totalTasks.textContent = tasks.length;
+  progressTasks.textContent = inProgressCount;
+  doneTasks.textContent = doneCount;
 }
 
 function deleteTask(taskId) {
@@ -237,6 +255,8 @@ function renderTasks() {
 
     taskList.appendChild(taskCard);
   });
+
+  updateStatistics();
 }
 
 addTaskBtn.addEventListener("click", openModal);
