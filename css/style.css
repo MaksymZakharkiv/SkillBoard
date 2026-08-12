@@ -430,3 +430,26 @@ body {
 .status-select {
     transition: background 0.2s ease, border-color 0.2s ease;
 }
+.edit-btn {
+    background: #e0f2fe;
+    color: #075985;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 7px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background: #bae6fd;
+}
+
+.task-actions {
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.task-buttons {
+    display: flex;
+    gap: 8px;
+}

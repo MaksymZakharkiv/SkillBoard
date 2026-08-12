@@ -4,6 +4,9 @@ const closeModalBtn = document.getElementById("closeModalBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 const taskForm = document.getElementById("taskForm");
 
+const modalTitle = document.getElementById("modalTitle");
+const saveTaskBtn = document.getElementById("saveTaskBtn");
+
 const taskTitleInput = document.getElementById("taskTitle");
 const taskDescriptionInput = document.getElementById("taskDescription");
 const taskCategoryInput = document.getElementById("taskCategory");
@@ -58,14 +61,51 @@ const defaultTasks = [
 ];
 
 let tasks = loadTasks();
+let editingTaskId = null;
 
 function openModal() {
   taskModal.classList.remove("hidden");
 }
 
+function openAddModal() {
+  editingTaskId = null;
+
+  modalTitle.textContent = "Add new task";
+  saveTaskBtn.textContent = "Save Task";
+
+  taskForm.reset();
+  openModal();
+}
+
+function openEditModal(taskId) {
+  const taskToEdit = tasks.find(function (task) {
+    return task.id === taskId;
+  });
+
+  if (taskToEdit === undefined) {
+    return;
+  }
+
+  editingTaskId = taskId;
+
+  modalTitle.textContent = "Edit task";
+  saveTaskBtn.textContent = "Update Task";
+
+  taskTitleInput.value = taskToEdit.title;
+  taskDescriptionInput.value = taskToEdit.description;
+  taskCategoryInput.value = taskToEdit.category;
+  taskPriorityInput.value = taskToEdit.priority;
+
+  openModal();
+}
+
 function closeModal() {
   taskModal.classList.add("hidden");
   taskForm.reset();
+
+  editingTaskId = null;
+  modalTitle.textContent = "Add new task";
+  saveTaskBtn.textContent = "Save Task";
 }
 
 function capitalizeText(text) {
@@ -201,6 +241,22 @@ function changeTaskStatus(taskId, newStatus) {
   renderTasks();
 }
 
+function updateTask(taskId, title, description, category, priority) {
+  tasks = tasks.map(function (task) {
+    if (task.id === taskId) {
+      task.title = title;
+      task.description = description;
+      task.category = category;
+      task.priority = priority;
+    }
+
+    return task;
+  });
+
+  saveTasks();
+  renderTasks();
+}
+
 function createStatusSelect(task) {
   const statusSelect = document.createElement("select");
 
@@ -233,6 +289,7 @@ function createStatusSelect(task) {
 
 function createTaskCard(task) {
   const taskCard = document.createElement("article");
+
   taskCard.classList.add("task-card");
   taskCard.classList.add("priority-" + task.priority);
 
@@ -262,6 +319,17 @@ function createTaskCard(task) {
 
   const statusSelect = createStatusSelect(task);
 
+  const taskButtons = document.createElement("div");
+  taskButtons.classList.add("task-buttons");
+
+  const editButton = document.createElement("button");
+  editButton.classList.add("edit-btn");
+  editButton.textContent = "Edit";
+
+  editButton.addEventListener("click", function () {
+    openEditModal(task.id);
+  });
+
   const deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-btn");
   deleteButton.textContent = "Delete";
@@ -273,8 +341,11 @@ function createTaskCard(task) {
   taskTop.appendChild(categoryTag);
   taskTop.appendChild(priorityTag);
 
+  taskButtons.appendChild(editButton);
+  taskButtons.appendChild(deleteButton);
+
   taskActions.appendChild(statusSelect);
-  taskActions.appendChild(deleteButton);
+  taskActions.appendChild(taskButtons);
 
   taskCard.appendChild(taskTop);
   taskCard.appendChild(taskTitle);
@@ -302,7 +373,7 @@ function renderTasks() {
   updateStatistics();
 }
 
-addTaskBtn.addEventListener("click", openModal);
+addTaskBtn.addEventListener("click", openAddModal);
 
 closeModalBtn.addEventListener("click", closeModal);
 
@@ -346,6 +417,19 @@ taskForm.addEventListener("submit", function (event) {
 
   if (title === "") {
     alert("Please enter task title");
+    return;
+  }
+
+  if (editingTaskId !== null) {
+    updateTask(
+      editingTaskId,
+      title,
+      description || "No description added.",
+      category,
+      priority,
+    );
+
+    closeModal();
     return;
   }
 
