@@ -13,6 +13,7 @@ const taskTitleInput = document.getElementById("taskTitle");
 const taskDescriptionInput = document.getElementById("taskDescription");
 const taskCategoryInput = document.getElementById("taskCategory");
 const taskPriorityInput = document.getElementById("taskPriority");
+const taskDueDateInput = document.getElementById("taskDueDate");
 
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
@@ -35,6 +36,7 @@ const defaultTasks = [
     category: "javascript",
     priority: "high",
     status: "todo",
+    dueDate: "2026-08-17",
   },
   {
     id: 2,
@@ -43,6 +45,7 @@ const defaultTasks = [
     category: "algorithms",
     priority: "medium",
     status: "todo",
+    dueDate: "2026-08-17",
   },
   {
     id: 3,
@@ -51,6 +54,7 @@ const defaultTasks = [
     category: "project",
     priority: "high",
     status: "progress",
+    dueDate: "2026-08-17",
   },
   {
     id: 4,
@@ -59,6 +63,7 @@ const defaultTasks = [
     category: "english",
     priority: "low",
     status: "done",
+    dueDate: "2026-08-17",
   },
 ];
 
@@ -74,6 +79,7 @@ function getDefaultTasks() {
       category: task.category,
       priority: task.priority,
       status: task.status,
+      dueDate: task.dueDate,
     };
   });
 }
@@ -110,6 +116,10 @@ function openEditModal(taskId) {
   taskDescriptionInput.value = taskToEdit.description;
   taskCategoryInput.value = taskToEdit.category;
   taskPriorityInput.value = taskToEdit.priority;
+
+  if (taskDueDateInput) {
+    taskDueDateInput.value = taskToEdit.dueDate || "";
+  }
 
   openModal();
 }
@@ -270,13 +280,14 @@ function changeTaskStatus(taskId, newStatus) {
   renderTasks();
 }
 
-function updateTask(taskId, title, description, category, priority) {
+function updateTask(taskId, title, description, category, priority, dueDate) {
   tasks = tasks.map(function (task) {
     if (task.id === taskId) {
       task.title = title;
       task.description = description;
       task.category = category;
       task.priority = priority;
+      task.dueDate = dueDate;
     }
 
     return task;
@@ -379,6 +390,15 @@ function createTaskCard(task) {
   taskCard.appendChild(taskTop);
   taskCard.appendChild(taskTitle);
   taskCard.appendChild(taskDescription);
+
+  if (task.dueDate) {
+    const taskDate = document.createElement("span");
+    taskDate.classList.add("task-date");
+    taskDate.textContent = "Due: " + task.dueDate;
+
+    taskCard.appendChild(taskDate);
+  }
+
   taskCard.appendChild(taskActions);
 
   return taskCard;
@@ -404,9 +424,11 @@ function renderTasks() {
 
 addTaskBtn.addEventListener("click", openAddModal);
 
-resetBoardBtn.addEventListener("click", function () {
-  resetBoard();
-});
+if (resetBoardBtn) {
+  resetBoardBtn.addEventListener("click", function () {
+    resetBoard();
+  });
+}
 
 closeModalBtn.addEventListener("click", closeModal);
 
@@ -447,6 +469,7 @@ taskForm.addEventListener("submit", function (event) {
   const description = taskDescriptionInput.value.trim();
   const category = taskCategoryInput.value;
   const priority = taskPriorityInput.value;
+  const dueDate = taskDueDateInput ? taskDueDateInput.value : "";
 
   if (title === "") {
     alert("Please enter task title");
@@ -460,6 +483,7 @@ taskForm.addEventListener("submit", function (event) {
       description || "No description added.",
       category,
       priority,
+      dueDate,
     );
 
     closeModal();
@@ -473,6 +497,7 @@ taskForm.addEventListener("submit", function (event) {
     category: category,
     priority: priority,
     status: "todo",
+    dueDate: dueDate,
   };
 
   tasks.push(newTask);

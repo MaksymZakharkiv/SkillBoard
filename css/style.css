@@ -592,3 +592,12 @@ body {
         width: 100%;
     }
 }
+.task-date {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #4b5563;
+    background: #f3f4f6;
+    padding: 6px 8px;
+    border-radius: 7px;
+}
