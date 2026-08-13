@@ -4,6 +4,9 @@ SkillBoard is a simple JavaScript task board created to track preparation for a 
 
 The application helps organize learning tasks by category, priority, status, and due date. It also saves tasks in the browser, so the data is not lost after reloading the page.
 
+## Live demo
+https://maksymzakharkiv.github.io/SkillBoard/
+
 ## Features
 
 - Add new tasks
@@ -61,7 +64,7 @@ SkillBoard
 1. Clone this repository.
 
 ```bash
-git clone repository-link
+git clone https://github.com/MaksymZakharkiv/SkillBoard.git
 ```
 
 2. Open the project folder.
@@ -143,3 +146,5 @@ Possible improvements for the next version:
 - TypeScript version
 - React version
 - Node.js backend
+
+
