@@ -601,3 +601,22 @@ body {
     padding: 6px 8px;
     border-radius: 7px;
 }
+.task-card.overdue {
+    background: #fff7ed;
+    border-color: #fed7aa;
+}
+
+.task-card.overdue .task-date {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.task-card.due-soon .task-date {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.task-card.done .task-date {
+    background: #dcfce7;
+    color: #166534;
+}

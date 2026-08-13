@@ -116,10 +116,7 @@ function openEditModal(taskId) {
   taskDescriptionInput.value = taskToEdit.description;
   taskCategoryInput.value = taskToEdit.category;
   taskPriorityInput.value = taskToEdit.priority;
-
-  if (taskDueDateInput) {
-    taskDueDateInput.value = taskToEdit.dueDate || "";
-  }
+  taskDueDateInput.value = taskToEdit.dueDate || "";
 
   openModal();
 }
@@ -297,6 +294,57 @@ function updateTask(taskId, title, description, category, priority, dueDate) {
   renderTasks();
 }
 
+function getDaysUntilDueDate(dueDateValue) {
+  const today = new Date();
+  const dueDate = new Date(dueDateValue);
+
+  today.setHours(0, 0, 0, 0);
+  dueDate.setHours(0, 0, 0, 0);
+
+  return Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+}
+
+function addDueDateClass(taskCard, task) {
+  if (!task.dueDate) {
+    return;
+  }
+
+  const daysLeft = getDaysUntilDueDate(task.dueDate);
+
+  if (task.status === "done") {
+    return;
+  }
+
+  if (daysLeft < 0) {
+    taskCard.classList.add("overdue");
+  }
+
+  if (daysLeft >= 0 && daysLeft <= 3) {
+    taskCard.classList.add("due-soon");
+  }
+}
+
+function createDueDateLabel(task) {
+  const taskDate = document.createElement("span");
+  taskDate.classList.add("task-date");
+
+  const daysLeft = getDaysUntilDueDate(task.dueDate);
+
+  if (task.status === "done") {
+    taskDate.textContent = "Completed task";
+  } else if (daysLeft < 0) {
+    taskDate.textContent = "Overdue: " + task.dueDate;
+  } else if (daysLeft === 0) {
+    taskDate.textContent = "Due today";
+  } else if (daysLeft <= 3) {
+    taskDate.textContent = "Due soon: " + task.dueDate;
+  } else {
+    taskDate.textContent = "Due: " + task.dueDate;
+  }
+
+  return taskDate;
+}
+
 function createStatusSelect(task) {
   const statusSelect = document.createElement("select");
 
@@ -332,6 +380,8 @@ function createTaskCard(task) {
 
   taskCard.classList.add("task-card");
   taskCard.classList.add("priority-" + task.priority);
+
+  addDueDateClass(taskCard, task);
 
   if (task.status === "done") {
     taskCard.classList.add("done");
@@ -392,11 +442,7 @@ function createTaskCard(task) {
   taskCard.appendChild(taskDescription);
 
   if (task.dueDate) {
-    const taskDate = document.createElement("span");
-    taskDate.classList.add("task-date");
-    taskDate.textContent = "Due: " + task.dueDate;
-
-    taskCard.appendChild(taskDate);
+    taskCard.appendChild(createDueDateLabel(task));
   }
 
   taskCard.appendChild(taskActions);
@@ -424,11 +470,9 @@ function renderTasks() {
 
 addTaskBtn.addEventListener("click", openAddModal);
 
-if (resetBoardBtn) {
-  resetBoardBtn.addEventListener("click", function () {
-    resetBoard();
-  });
-}
+resetBoardBtn.addEventListener("click", function () {
+  resetBoard();
+});
 
 closeModalBtn.addEventListener("click", closeModal);
 
@@ -469,7 +513,7 @@ taskForm.addEventListener("submit", function (event) {
   const description = taskDescriptionInput.value.trim();
   const category = taskCategoryInput.value;
   const priority = taskPriorityInput.value;
-  const dueDate = taskDueDateInput ? taskDueDateInput.value : "";
+  const dueDate = taskDueDateInput.value;
 
   if (title === "") {
     alert("Please enter task title");
